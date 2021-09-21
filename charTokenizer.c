@@ -10,7 +10,6 @@ bool delim_character(char c){
 	}
 	return false;
 }
-//done
 /* Return true (non-zero) if c is a non-whitespace
    character (not tab or space).
    Zero terminators are not printable (therefore false) */
@@ -21,8 +20,9 @@ bool non_delim_character(char c){
 	}
 	return !delim_character(c);
 }
-// returns pointer to starting character
-//traversimngs trough  delim characters   then returning &str it will produce a pointer to the entire str array.
+// returning the  pointer to the starting character
+
+//traversings trough  delim characters   then returning &str it will produce a pointer to the entire str array.
 char *word_start(char *str){
  int i = 0;
  while(delim_character(str[i])) {
@@ -31,6 +31,7 @@ char *word_start(char *str){
  return &str[i];
 }
 //retruns pointer to end character
+
 //traversing non  delim  characters tto get  end character  and return  &str it will produce a pointer to the entire str array.
 char *end_word(char *str) {
  str = word_start(str);
@@ -53,30 +54,33 @@ int count_tokens(char *str) {
 // returns a array with a token in it
 char *copy_str(char *inStr, short len) {
  int i;
- char *copy =    (char *)malloc(sizeof(char) * (len+1)); // create a block of memory
+ char *c = (char *)malloc(sizeof(char) * (len+1)); // create a block of memory
+ // adds each character to memory
  for(i=0; i< len; i++) {
-   copy[i] = inStr[i]; // adds each character to memory
+   c[i] = inStr[i]; 
  }
- copy[i] = '\0'; // ends the block will a zero terminator
- return copy;
+ // ends the block will a zero terminator
+ c[i] = '\0'; 
+ return c;
 }
 // returns an array of words
 char **tokenize(char *str) {
  int i;
  //gets the total count of all the words
- int tokens = count_tokens(str); 
+ int tok = count_tokens(str); 
  // creates a block or memory
- char **array = malloc(sizeof(char *) * (tokens)); 
- // gets the starting word
- char *start = word_start(str); 
-
- char *end = end_word(str); // gets the ending character
- //int word_len = end_word - start_word; // gets the length of the word
-
- for (i = 0; i < tokens; i++) {
-   array[i] = copy_str(start, end-start); // creates a char "array" and stores it in postion i of array
-   start = word_start(end); // gets the new starting word
-   end = end_word(start); // gets the new ending word
+ char **array = malloc(sizeof(char *) * (tok)); 
+ // gets the start word
+ char *s = word_start(str); 
+// gets the end word
+ char *e = end_word(str); 
+// creates a char "array" and stores it in postion i of array
+ for (i = 0; i < tok; i++) {
+   array[i] = copy_str(s, e-s); 
+   // gets the new starting word
+   s = word_start(e); 
+   // gets the new ending word
+   e = end_word(s); 
  }
  array[i] = 0;
  return array;
@@ -98,7 +102,8 @@ int main() {
   printf("Please enter the input string: \n");
   fgets(inStr, max, stdin); //fgets also has a pointer
   printf("\n");
-  char** tokens = tokenize(inStr); // stores new strings and sequence of char*
+   // stores new strings and sequence of char*
+  char** tokens = tokenize(inStr);
   print_all_tokens(tokens);
   return 0;
 }
